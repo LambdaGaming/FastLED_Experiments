@@ -15,11 +15,19 @@ std::string StringBuffer;
 
 void setup()
 {
+	Serial.begin( 9600 );
 	delay( 2000 );
 	pinMode( IR_PIN, INPUT );
 	FastLED.addLeds<CHIPSET, DATA_PIN, RGB_ORDER>( leds, NUM_LEDS );
 	FastLED.clear( true );
 	IrReceiver.begin( IR_PIN );
+}
+
+void AddChar( char character )
+{
+	StringBuffer += character;
+	Serial.print( "Adding character: " );
+	Serial.println( character );
 }
 
 void loop()
@@ -29,63 +37,65 @@ void loop()
 		auto data = IrReceiver.decodedIRData.decodedRawData;
 		switch ( data )
 		{
-			case 0x43F: case 0x1043F: // Remote can send out either of these for one button; they alternate after every press
-				StringBuffer += "A";
+			case 0x1051: case 0x11051: // Remote can send out either of these for one button; they alternate after every press
+				AddChar( 'A' );
 				break;
-			case 0x113F: case 0x1113F:
-				StringBuffer += "B";
+			case 0x10B9: case 0x110B9:
+				AddChar( 'B' );
 				break;
-			case 0x3F: case 0x1003F:
-				StringBuffer += "C";
+			case 0x44B: case 0x1044B:
+				AddChar( 'C' );
 				break;
-			case 0x442: case 0x10442:
-				StringBuffer += "D";
+			case 0x44E: case 0x1044E:
+				AddChar( 'D' );
 				break;
-			case 0x153F: case 0x1153F:
-				StringBuffer += "E";
+			case 0x4F7: case 0x104F7:
+				AddChar( 'E' );
 				break;
-			case 0x1538: case 0x11538:
-				StringBuffer += "F";
+			case 0x41D: case 0x1041D:
+				AddChar( 'F' );
 				break;
 			case 0x401: case 0x10401:
-				StringBuffer += "1";
+				AddChar( '1' );
 				break;
 			case 0x402: case 0x10402:
-				StringBuffer += "2";
+				AddChar( '2' );
 				break;
 			case 0x403: case 0x10403:
-				StringBuffer += "3";
+				AddChar( '3' );
 				break;
 			case 0x404: case 0x10404:
-				StringBuffer += "4";
+				AddChar( '4' );
 				break;
 			case 0x405: case 0x10405:
-				StringBuffer += "5";
+				AddChar( '5' );
 				break;
 			case 0x406: case 0x10406:
-				StringBuffer += "6";
+				AddChar( '6' );
 				break;
 			case 0x407: case 0x10407:
-				StringBuffer += "7";
+				AddChar( '7' );
 				break;
 			case 0x408: case 0x10408:
-				StringBuffer += "8";
+				AddChar( '8' );
 				break;
 			case 0x409: case 0x10409:
-				StringBuffer += "9";
+				AddChar( '9' );
 				break;
 			case 0x400: case 0x10400:
-				StringBuffer += "0";
+				AddChar( '0' );
 				break;
 			case 0x45C: case 0x1045C:
 				int hex;
 				std::stringstream ss;
 				ss << std::hex << StringBuffer;
 				ss >> hex;
+				Serial.print( "Final hex code: " );
+				Serial.println( hex, HEX );
 				FastLED.showColor( hex );
 				StringBuffer.clear();
 		}
-		delay( 100 ); // Small delay so only the first button press is registered
+		delay( 300 ); // Small delay so only the first button press is registered
 	}
 	IrReceiver.resume();
 }
