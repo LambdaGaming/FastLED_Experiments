@@ -266,16 +266,16 @@ void loop()
 			case 0xF30CFF00:
 				CurrentEffect = Halloween;
 				break;
-			case 0x10401:
+			case 0x10401: case 0x401:
 				CurrentEffect = DualColorsLambda;
 				break;
-			case 0x10402:
+			case 0x10402: case 0x402:
 				CurrentEffect = RGBSectioned;
 				break;
-			case 0x10403:
+			case 0x10403: case 0x403:
 				CurrentEffect = ChristmasRandom;
 				break;
-			case 0x10404:
+			case 0x10404: case 0x404:
 				CurrentEffect = RedWhiteBlue;
 				break;
 			case 0xFD02FF00:
