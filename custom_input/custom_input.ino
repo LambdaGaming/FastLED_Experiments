@@ -20,6 +20,7 @@ void setup()
 	pinMode( IR_PIN, INPUT );
 	FastLED.addLeds<CHIPSET, DATA_PIN, RGB_ORDER>( leds, NUM_LEDS );
 	FastLED.clear( true );
+	FastLED.setBrightness( 50 );
 	IrReceiver.begin( IR_PIN );
 }
 
@@ -94,6 +95,7 @@ void loop()
 				Serial.println( hex, HEX );
 				FastLED.showColor( hex );
 				StringBuffer.clear();
+				break;
 		}
 		delay( 300 ); // Small delay so only the first button press is registered
 	}
