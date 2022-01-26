@@ -31,8 +31,8 @@ void setup()
 		Serial.print( "." );
 	}
 
-  FastLED.addLeds<CHIPSET, DATA_PIN, RGB_ORDER>( leds, NUM_LEDS );
-  FastLED.clear( true );
+	FastLED.addLeds<CHIPSET, DATA_PIN, RGB_ORDER>( leds, NUM_LEDS );
+	FastLED.clear( true );
 
 	Serial.println();
 	Serial.println( "WiFi connected." );
@@ -40,8 +40,20 @@ void setup()
 	Serial.println( WiFi.localIP() );
 
 	server.on( "/", HTTP_GET, []( AsyncWebServerRequest *request ) {
-    FastLED.showColor( CRGB::Green );
 		request->send( SPIFFS, "/index.html", String(), false );
+	} );
+
+	server.on( "/state", HTTP_GET, []( AsyncWebServerRequest *request ) {
+		if ( request->hasParam( "color" ) )
+		{
+			int color = request->getParam( "color" )->value().toInt();
+			FastLED.showColor( color );
+		}
+		request->send( 200, "text/plain", "OK" );
+	} );
+
+	server.on( "/input.js", HTTP_GET, []( AsyncWebServerRequest *request ) {
+		request->send( SPIFFS, "/input.js", "text/javascript" );
 	} );
 
 	server.on( "/style.css", HTTP_GET, []( AsyncWebServerRequest *request ) {

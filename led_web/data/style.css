@@ -1,4 +1,14 @@
 body {
 	color: white;
 	background-color: #000011;
+	text-align: center;
+}
+
+.container {
+	margin: auto;
+	width: 50%;
+}
+
+h1 {
+	color: #FF5900;
 }

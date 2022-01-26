@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Test Web Server</title>
+		<title>LED Color Selector</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="input.js"></script>
 	</head>
 	<body>
-		<p>TESTING</p>
+		<h1>LED Color Selector</h1>
+		<div class="container">
+			<label for="colorinput">Custom Input:</label><br>
+			<input type="color" id="colorinput">
+			<button onclick="SendColor()">Submit</button>
+		</div>
 	</body>
 </html>
