@@ -33,6 +33,7 @@ void setup()
 
 	FastLED.addLeds<CHIPSET, DATA_PIN, RGB_ORDER>( leds, NUM_LEDS );
 	FastLED.clear( true );
+	FastLED.setBrightness( 50 );
 
 	Serial.println();
 	Serial.println( "WiFi connected." );
@@ -49,6 +50,7 @@ void setup()
 			int color = request->getParam( "color" )->value().toInt();
 			FastLED.showColor( color );
 		}
+		request->send( 200, "text/plain", "OK" );
 	} );
 
 	server.on( "/input.js", HTTP_GET, []( AsyncWebServerRequest *request ) {
