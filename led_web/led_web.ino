@@ -49,7 +49,6 @@ void setup()
 			int color = request->getParam( "color" )->value().toInt();
 			FastLED.showColor( color );
 		}
-		request->send( 200, "text/plain", "OK" );
 	} );
 
 	server.on( "/input.js", HTTP_GET, []( AsyncWebServerRequest *request ) {
