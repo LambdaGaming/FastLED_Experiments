@@ -34,3 +34,8 @@
 # Misc
 .vscode/
 build/
+obj/
+v17/
+DesignTimeBuild/
+bin/
+.vs/
