@@ -39,5 +39,6 @@ while ( ( input = Console.ReadLine() ) != null && input != "exit" )
 		Console.WriteLine( "\nAn error occured while attempting to change the color:\n" + e.Message + "\n" );
 	}
 
+	namedcolor = false;
 	Console.WriteLine( "Enter a hex number or color name:" );
 }
