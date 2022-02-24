@@ -39,3 +39,5 @@ v17/
 DesignTimeBuild/
 bin/
 .vs/
+Debug/
+Release/

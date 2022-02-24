@@ -34,6 +34,7 @@ void setup()
 	FastLED.addLeds<CHIPSET, DATA_PIN, RGB_ORDER>( leds, NUM_LEDS );
 	FastLED.clear( true );
 	FastLED.setBrightness( 50 );
+	FastLED.setCorrection( TypicalPixelString );
 
 	Serial.println();
 	Serial.println( "WiFi connected." );

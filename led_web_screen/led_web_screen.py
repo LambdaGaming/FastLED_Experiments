@@ -4,21 +4,12 @@ from PIL import ImageGrab
 import requests
 import time
 
-# Helps bring out the dull colors so not everything appears to be a shade of white
-def ColorCorrection( color ):
-	newcolor = list( color )
-	for i in range( 3 ):
-		if newcolor[i] <= 100:
-			newcolor[i] *= 2
-	return newcolor
-
 WIDTH = 1920
 HEIGHT = 1080
 previouscolor = 0
 while True:
 	pixel = ImageGrab.grab().load()
 	color = pixel[WIDTH / 2, HEIGHT / 2]
-	color = ColorCorrection( color )
 	finalcolor = "{:02x}{:02x}{:02x}".format( color[0], color[1], color[2] )
 	finalcolor = str( int( finalcolor, 16 ) )
 
