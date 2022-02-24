@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
 		<title>LED Color Selector</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script src="input.js"></script>
@@ -9,11 +9,14 @@
 	<body>
 		<h1>LED Color Selector</h1>
 		<div class="container">
-			<label for="colorinput">Select color:</label><br>
+			<hr><label for="colorinput">Select color:</label><br>
 			<input type="color" id="colorinput"><br><br>
+			<button onclick="SendColorSelector()">Submit</button><hr>
 			<label for="hexinput">Hex color:</label><br>
 			<input type="text" maxlength="6" id="hexinput"><br><br>
-			<button onclick="SendColor()">Submit</button>
+			<label for="ledinput">Individual LED input:</label><br>
+			<input type="number" min="0" max="200" id="ledinput" style="width:50px"><br><br>
+			<button onclick="SendHexColor()">Submit</button><hr>
 		</div>
 	</body>
 </html>

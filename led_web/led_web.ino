@@ -51,6 +51,23 @@ void setup()
 			int color = request->getParam( "color" )->value().toInt();
 			FastLED.showColor( color );
 		}
+		else
+		{
+			size_t numParams = request->params();
+			for ( int i = 0; i < numParams; i++ )
+			{
+				AsyncWebParameter *param = request->getParam( i );
+				int color = param->value().toInt();
+				String name = param->name();
+				if ( name.startsWith( "led" ) )
+				{
+					name.remove( 0, 3 );
+					int ledNum = name.toInt();
+					leds[ledNum] = color;
+				}
+			}
+			FastLED.show();
+		}
 		request->send( 200, "text/plain", "OK" );
 	} );
 

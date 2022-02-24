@@ -1,14 +1,18 @@
 body {
-	color: white;
-	background-color: #000011;
-	text-align: center;
+	width:auto;
+	height:auto;
+	color:white;
+	background-color:#000011;
+	text-align:center;
 }
-
 .container {
-	margin: auto;
-	width: 50%;
+	margin:auto;
+	width:50%;
 }
-
+hr {
+	width:250px;
+	color:#FF5900;
+}
 h1 {
-	color: #FF5900;
+	color:#FF5900;
 }

@@ -1,8 +1,14 @@
-function SendColor() {
+function SendColorSelector() {
 	var colorstring = document.getElementById( "colorinput" ).value
-	var hexstring = document.getElementById( "hexinput" ).value
-	var color
+	var color = "0x" + colorstring.substring( 1 )
+	var connect = new XMLHttpRequest()
+	connect.open( "GET", "/state?color=" + Number( color ), true )
+	connect.send()
+}
 
+function SendHexColor() {
+	var hexstring = document.getElementById( "hexinput" ).value
+	var lednum = document.getElementById( "ledinput" ).value
 	if ( hexstring.length > 0 ) {
 		if ( hexstring.startsWith( "0x" ) ) {
 			color = hexstring
@@ -15,11 +21,14 @@ function SendColor() {
 			color = "0x" + hexstring
 		}
 	}
-	else {
-		color = "0x" + colorstring.substring( 1 )
-	}
-	
 	var connect = new XMLHttpRequest()
-	connect.open( "GET", "/state?color=" + Number( color ), true )
+	var url
+	if ( lednum >= 0 ) {
+		url = "/state?led" + lednum + "=" + Number( color )
+	}
+	else {
+		url = "/state?color=" + Number( color )
+	}
+	connect.open( "GET", url, true )
 	connect.send()
 }
