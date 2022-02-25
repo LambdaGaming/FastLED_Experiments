@@ -21,14 +21,14 @@ function SendHexColor() {
 			color = "0x" + hexstring
 		}
 	}
-	var connect = new XMLHttpRequest()
 	var url
-	if ( lednum >= 0 ) {
-		url = "/state?led" + lednum + "=" + Number( color )
-	}
-	else {
+	if ( lednum == null ) {
 		url = "/state?color=" + Number( color )
 	}
+	else {
+		url = "/state?led" + lednum + "=" + Number( color )
+	}
+	var connect = new XMLHttpRequest()
 	connect.open( "GET", url, true )
 	connect.send()
 }
