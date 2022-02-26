@@ -10,13 +10,13 @@
 		<h1>LED Color Selector</h1>
 		<div class="container">
 			<hr><label for="colorinput">Select color:</label><br>
-			<input type="color" id="colorinput"><br><br>
-			<button onclick="SendColorSelector()">Submit</button><hr>
-			<label for="hexinput">Hex color:</label><br>
-			<input type="text" maxlength="6" id="hexinput"><br><br>
-			<label for="ledinput">Individual LED input:<br>(Leave blank to set all LEDs)</label><br>
-			<input type="number" min="0" max="199" id="ledinput" style="width:50px"><br><br>
-			<button onclick="SendHexColor()">Submit</button><hr>
+			<input type="color" id="colorinput"><br><p>OR</p>
+			<label for="hexinput">Enter hex color:</label><br>
+			<input type="text" maxlength="6" id="hexinput"><br><hr>
+			<label for="ledinput">Individual LED input<br>Separate numbers with a comma<br>
+				or enter a range with a colon.<br>Leave blank to set all LEDs</label><br>
+			<input type="text" id="ledinput"><br><hr>
+			<button onclick="SendColor()">Submit</button><hr>
 		</div>
 	</body>
 </html>
