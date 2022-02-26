@@ -12,7 +12,11 @@ def GetPixels():
 	params = ""
 	then = time.perf_counter()
 	for i in range( 199 ):
-		color = pixel[random.randrange( 0, WIDTH ), random.randrange( 0, HEIGHT )]
+		try:
+			color = pixel[random.randrange( 0, WIDTH ), random.randrange( 0, HEIGHT )]
+		except:
+			print( "Resolution changed. Aborting." )
+			return
 		finalcolor = "{:02x}{:02x}{:02x}".format( color[0], color[1], color[2] )
 		finalcolor = int( finalcolor, 16 )
 		params += "led{0}={1}&".format( i, finalcolor )
