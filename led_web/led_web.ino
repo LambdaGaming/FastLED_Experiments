@@ -49,7 +49,11 @@ void setup()
 		if ( request->hasParam( "color" ) )
 		{
 			int color = request->getParam( "color" )->value().toInt();
-			FastLED.showColor( color );
+			for ( int i = 0; i < NUM_LEDS; i++ )
+			{
+				leds[i] = color;
+			}
+			FastLED.show();
 		}
 		else
 		{
