@@ -36,15 +36,18 @@ function SendColor() {
 		}
 		else if ( lednum.includes( ":" ) ) {
 			var split = lednum.split( ":" )
-			if ( split[0] > split[1] ) {
+			var min = Number( split[0] )
+			var max = Number( split[1] )
+			var add = Number( split[2] ) || 1
+			if ( min > max ) {
 				alert( "The first number of the range must be smaller than the second number." )
 				return
 			}
-			if ( !ValidNumber( split[0] ) || !ValidNumber( split[1] ) ) {
+			if ( !ValidNumber( min ) || !ValidNumber( max ) ) {
 				alert( "Invalid number detected." )
 				return
 			}
-			for ( var i = split[0]; i <= split[1]; i++ ) {
+			for ( var i = min; i <= max; i += add ) {
 				url += "led" + i + "=" + color + "&"
 			}
 		}
