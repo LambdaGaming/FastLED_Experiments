@@ -7,11 +7,12 @@ import time
 
 WIDTH = 1920
 HEIGHT = 1080
+NUM_LEDS = 199 # Actually 200 but the IDs start at 0
 
 def GetPixels():
 	params = ""
 	then = time.perf_counter()
-	for i in range( 199 ):
+	for i in range( NUM_LEDS ):
 		try:
 			color = pixel[random.randrange( 0, WIDTH ), random.randrange( 0, HEIGHT )]
 		except:

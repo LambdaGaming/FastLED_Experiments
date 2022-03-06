@@ -75,6 +75,15 @@ void setup()
 		request->send( 200, "text/plain", "OK" );
 	} );
 
+	server.on( "/settings", HTTP_GET, []( AsyncWebServerRequest * request ) {
+		if ( request->hasParam( "brightness" ) )
+		{
+			int brightness = request->getParam( "brightness" )->value().toInt();
+			FastLED.setBrightness( brightness );
+		}
+		request->send( 200, "text/plain", "OK" );
+	} );
+
 	server.on( "/input.js", HTTP_GET, []( AsyncWebServerRequest *request ) {
 		request->send( SPIFFS, "/input.js", "text/javascript" );
 	} );
