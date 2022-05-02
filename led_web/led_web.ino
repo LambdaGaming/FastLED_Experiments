@@ -45,7 +45,7 @@ void setup()
 		request->send( SPIFFS, "/index.html", String(), false );
 	} );
 
-	server.on( "/state", HTTP_GET, []( AsyncWebServerRequest *request ) {
+	server.on( "/state", HTTP_POST, []( AsyncWebServerRequest *request ) {
 		if ( request->hasParam( "color" ) )
 		{
 			int color = request->getParam( "color" )->value().toInt();
@@ -75,7 +75,7 @@ void setup()
 		request->send( 200, "text/plain", "OK" );
 	} );
 
-	server.on( "/settings", HTTP_GET, []( AsyncWebServerRequest * request ) {
+	server.on( "/settings", HTTP_POST, []( AsyncWebServerRequest * request ) {
 		if ( request->hasParam( "brightness" ) )
 		{
 			int brightness = request->getParam( "brightness" )->value().toInt();

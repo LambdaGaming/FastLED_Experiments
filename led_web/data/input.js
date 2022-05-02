@@ -68,6 +68,6 @@ function SendColor() {
 	}
 
 	var connect = new XMLHttpRequest()
-	connect.open( "GET", url, true )
+	connect.open( "POST", url, true )
 	connect.send()
 }
