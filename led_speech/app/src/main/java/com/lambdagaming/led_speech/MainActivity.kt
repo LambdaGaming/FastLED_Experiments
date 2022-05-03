@@ -25,55 +25,30 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
 			button.setOnCheckedChangeListener { _, isChecked ->
 				if ( isChecked ) {
 					speech.startListening( recognizerIntent )
-					button.text = "Listening..."
+					button.textOn = "Listening..."
 				}
 				else {
 					speech.stopListening()
-					button.text = "Off"
+					button.textOff = "Off"
 				}
 			}
 		}
 	}
 
-	override fun onReadyForSpeech(p0: Bundle?) {
-
-	}
-
-	override fun onBeginningOfSpeech() {
-
-	}
-
-	override fun onRmsChanged(p0: Float) {
-
-	}
-
-	override fun onBufferReceived(p0: ByteArray?) {
-
-	}
-
-	override fun onEndOfSpeech() {
-
-	}
-
-	override fun onError(p0: Int) {
-
-	}
-
 	override fun onResults( results: Bundle? ) {
 		val text = findViewById<TextView>( R.id.textView )
+		val button = findViewById<ToggleButton>( R.id.toggleButton )
 		val matches = results!!.getStringArrayList( SpeechRecognizer.RESULTS_RECOGNITION )
-		var finaltext = ""
-		for ( result in matches!! ) {
-			finaltext += result
-		}
-		text.text = finaltext
+		text.text = matches?.get( 0 )
+		button.toggle()
 	}
 
-	override fun onPartialResults(p0: Bundle?) {
-
-	}
-
-	override fun onEvent(p0: Int, p1: Bundle?) {
-
-	}
+	override fun onReadyForSpeech(p0: Bundle?) {}
+	override fun onBeginningOfSpeech() {}
+	override fun onRmsChanged(p0: Float) {}
+	override fun onBufferReceived(p0: ByteArray?) {}
+	override fun onEndOfSpeech() {}
+	override fun onError(p0: Int) {}
+	override fun onPartialResults(p0: Bundle?) {}
+	override fun onEvent(p0: Int, p1: Bundle?) {}
 }
