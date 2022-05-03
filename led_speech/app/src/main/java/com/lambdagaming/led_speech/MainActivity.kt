@@ -8,6 +8,21 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.widget.TextView
 import android.widget.ToggleButton
+import java.io.OutputStreamWriter
+import java.net.HttpURLConnection
+import java.net.URL
+
+private val Colors = mapOf(
+	"white" to 0xFFFFFF,
+	"black" to 0x000000,
+	"read" to 0xFF0000,
+	"green" to 0x00FF00,
+	"blue" to 0x0000FF,
+	"orange" to 0xFF5900,
+	"yellow" to 0xFFFF00,
+	"magenta" to 0xFF00FF,
+	"cyan" to 0x00FFFF
+)
 
 class MainActivity : AppCompatActivity(), RecognitionListener {
 	override fun onCreate(savedInstanceState: Bundle? ) {
@@ -39,8 +54,25 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
 		val text = findViewById<TextView>( R.id.textView )
 		val button = findViewById<ToggleButton>( R.id.toggleButton )
 		val matches = results!!.getStringArrayList( SpeechRecognizer.RESULTS_RECOGNITION )
-		text.text = matches?.get( 0 )
+		val result = matches?.get( 0 )
+		text.text = result
 		button.toggle()
+		sendColor( result )
+	}
+
+	private fun sendColor( color: String? ) {
+		Colors.forEach { entry ->
+			if ( entry.key == color ) {
+				val url = URL( "http://192.168.1.208" )
+				val params = "state?color=${entry.value}"
+				with ( url.openConnection() as HttpURLConnection ) {
+					requestMethod = "POST"
+					val wr = OutputStreamWriter( outputStream )
+					wr.write( params )
+					wr.flush()
+				}
+			}
+		}
 	}
 
 	override fun onReadyForSpeech(p0: Bundle?) {}
