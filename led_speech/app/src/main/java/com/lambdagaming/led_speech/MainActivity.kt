@@ -8,9 +8,9 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.widget.TextView
 import android.widget.ToggleButton
-import java.io.OutputStreamWriter
-import java.net.HttpURLConnection
-import java.net.URL
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 
 private val Colors = mapOf(
 	"white" to 0xFFFFFF,
@@ -62,15 +62,10 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
 
 	private fun sendColor( color: String? ) {
 		Colors.forEach { entry ->
-			if ( entry.key == color ) {
-				val url = URL( "http://192.168.1.208" )
-				val params = "state?color=${entry.value}"
-				with ( url.openConnection() as HttpURLConnection ) {
-					requestMethod = "POST"
-					val wr = OutputStreamWriter( outputStream )
-					wr.write( params )
-					wr.flush()
-				}
+			if ( entry.key.lowercase() == color?.lowercase() ) {
+				val queue = Volley.newRequestQueue( this )
+				val request = StringRequest( Request.Method.POST, "http://192.168.1.208/state?color=${entry.value}", {}, {} )
+				queue.add( request )
 			}
 		}
 	}
