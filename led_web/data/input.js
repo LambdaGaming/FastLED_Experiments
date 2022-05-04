@@ -6,7 +6,7 @@ function SendColor() {
 	var colorstring = document.getElementById( "colorinput" ).value
 	var hexstring = document.getElementById( "hexinput" ).value
 	var lednum = document.getElementById( "ledinput" ).value
-	var color = "0x" + colorstring.substring( 1 )
+	var color = `0x${colorstring.substring( 1 )}`
 
 	if ( hexstring.length > 0 ) {
 		if ( hexstring.startsWith( "0x" ) ) {
@@ -14,10 +14,10 @@ function SendColor() {
 		}
 		else if ( hexstring.startsWith( "#" ) ) {
 			color = hexstring.substring( 1 )
-			color = "0x" + color
+			color = `0x${color}`
 		}
 		else {
-			color = "0x" + hexstring
+			color = `0x${hexstring}`
 		}
 	}
 
@@ -31,7 +31,7 @@ function SendColor() {
 					alert( "Invalid number detected." )
 					return
 				}
-				url += "led" + e + "=" + color + "&"
+				url += `led${e}=${color}&`
 			} );
 		}
 		else if ( lednum.includes( ":" ) ) {
@@ -48,7 +48,7 @@ function SendColor() {
 				return
 			}
 			for ( var i = min; i <= max; i += add ) {
-				url += "led" + i + "=" + color + "&"
+				url += `led${i}=${color}&`
 			}
 		}
 		else if ( lednum.match( /^[0-9]+$/ ) != null ) {
@@ -56,7 +56,7 @@ function SendColor() {
 				alert( "Invalid number detected." )
 				return
 			}
-			url += "led" + lednum + "=" + color
+			url += `led${lednum}=${color}`
 		}
 		else {
 			alert( "Invalid characters detected." )
