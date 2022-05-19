@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<h1>LED Color Selector</h1>
-		<div class="container">
+		<div id="page1" class=container">
 			<hr><label for="colorinput">Select color:</label><br>
 			<input type="color" id="colorinput"><br><p>OR</p>
 			<label for="hexinput">Enter hex color:</label><br>
@@ -18,6 +18,12 @@
 				or enter a range with a colon.<br>Leave blank to set all LEDs</label><br>
 			<input type="text" id="ledinput"><br><hr>
 			<button onclick="SendColor()">Submit</button><hr>
+			Page 1 of 2 <button class="pageButton" onclick="SetPage( 1, 2 )">Next -></button>
+		</div>
+		<div id="page2" class="container" style="display:none">
+			<hr><button style="width:150px" onclick="RandomColor( false )">Random Colors</button>
+			<br><br><button style="width:175px" onclick="RandomColor( true )">Random Single Color</button><hr>
+			<button class="pageButton" onclick="SetPage( 2, 1 )"><- Previous</button>Page 2 of 2
 		</div>
 	</body>
 </html>

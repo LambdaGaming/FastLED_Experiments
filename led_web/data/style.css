@@ -32,3 +32,9 @@ button:hover {
 	background-color:#FF5900;
 	cursor:pointer;
 }
+.pageButton {
+	width:75px;
+	height:25px;
+	font-size:12px;
+	margin:0 5px 0 5px;
+}

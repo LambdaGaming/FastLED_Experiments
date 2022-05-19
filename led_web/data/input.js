@@ -2,6 +2,12 @@ function ValidNumber( num ) {
 	return num >= 0 && num < 200
 }
 
+function SendURL( url ) {
+	var connect = new XMLHttpRequest()
+	connect.open( "POST", url, true )
+	connect.send()
+}
+
 function SendColor() {
 	var colorstring = document.getElementById( "colorinput" ).value
 	var hexstring = document.getElementById( "hexinput" ).value
@@ -66,8 +72,28 @@ function SendColor() {
 	else {
 		url += "color=" + Number( color )
 	}
+	SendURL( url )
+}
 
-	var connect = new XMLHttpRequest()
-	connect.open( "POST", url, true )
-	connect.send()
+function SetPage( current, next ) {
+	var currentpage = document.getElementById( `page${current}` )
+	var nextpage = document.getElementById( `page${next}` )
+	currentpage.style.display = "none"
+	nextpage.style.display = "initial"
+}
+
+function RandomColor( single ) {
+	if ( single ) {
+		var rand = Math.floor( Math.random() * 0xFFFFFF ).toString( 10 )
+		var url = `/state?color=${rand}`
+		SendURL( url )
+	}
+	else {
+		var url = "/state?"
+		for ( var i = 0; i < 200; i++ ) {
+			var rand = Math.floor( Math.random() * 0xFFFFFF ).toString( 10 )
+			url += `led${i}=${rand}&`
+		}
+		SendURL( url )
+	}
 }
