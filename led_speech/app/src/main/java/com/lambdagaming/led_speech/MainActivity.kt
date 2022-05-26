@@ -11,18 +11,12 @@ import android.widget.ToggleButton
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+import java.io.BufferedReader
 
-private val Colors = mapOf(
-	"white" to 0xFFFFFF,
-	"black" to 0x000000,
-	"read" to 0xFF0000,
-	"green" to 0x00FF00,
-	"blue" to 0x0000FF,
-	"orange" to 0xFF5900,
-	"yellow" to 0xFFFF00,
-	"magenta" to 0xFF00FF,
-	"cyan" to 0x00FFFF
-)
+@Serializable
+data class ColorEntry( val name: String, val color: Int )
 
 class MainActivity : AppCompatActivity(), RecognitionListener {
 	override fun onCreate(savedInstanceState: Bundle? ) {
@@ -36,7 +30,7 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
 			val recognizerIntent = Intent( RecognizerIntent.ACTION_RECOGNIZE_SPEECH )
 			recognizerIntent.putExtra( RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "US-en" )
 			recognizerIntent.putExtra( RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM )
-			recognizerIntent.putExtra( RecognizerIntent.EXTRA_MAX_RESULTS, 1 )
+			recognizerIntent.putExtra( RecognizerIntent.EXTRA_MAX_RESULTS, 3 )
 			button.setOnCheckedChangeListener { _, isChecked ->
 				if ( isChecked ) {
 					speech.startListening( recognizerIntent )
@@ -61,13 +55,18 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
 	}
 
 	private fun sendColor( color: String? ) {
-		Colors.forEach { entry ->
-			if ( entry.key.lowercase() == color?.lowercase() ) {
+		val colors = Json.decodeFromString<List<ColorEntry>>( getJSON() )
+		colors.forEach { entry ->
+			if ( entry.name.lowercase() == color?.lowercase()?.filter { !it.isWhitespace() } ) {
 				val queue = Volley.newRequestQueue( this )
-				val request = StringRequest( Request.Method.POST, "http://192.168.1.208/state?color=${entry.value}", {}, {} )
+				val request = StringRequest( Request.Method.POST, "http://192.168.1.208/state?color=${entry.color}", {}, {} )
 				queue.add( request )
 			}
 		}
+	}
+
+	private fun getJSON(): String {
+		return assets.open( "colors.json" ).bufferedReader().use( BufferedReader::readText )
 	}
 
 	override fun onReadyForSpeech(p0: Bundle?) {}
