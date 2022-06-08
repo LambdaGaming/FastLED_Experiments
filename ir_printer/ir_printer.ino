@@ -33,7 +33,11 @@ void loop()
 {
 	if ( IrReceiver.decode() )
 	{
-		Serial.print( "Data: " );
+		Serial.print( "Address: " );
+		Serial.println( IrReceiver.decodedIRData.address, HEX );
+		Serial.print( "Command: " );
+		Serial.println( IrReceiver.decodedIRData.command, HEX );
+		Serial.print( "Raw Data: " );
 		Serial.println( IrReceiver.decodedIRData.decodedRawData, HEX );
 		Serial.print( "Protocol: " );
 		Serial.println( Protocols[IrReceiver.decodedIRData.protocol] );
