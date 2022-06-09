@@ -24,7 +24,7 @@ String Frequencies[] = {
 
 void setup()
 {
-	Serial.begin( 9600 );
+	Serial.begin( 115200 );
 	pinMode( IR_PIN, INPUT );
 	IrReceiver.begin( IR_PIN );
 }
@@ -33,11 +33,11 @@ void loop()
 {
 	if ( IrReceiver.decode() )
 	{
-		Serial.print( "Address: " );
+		Serial.print( "Address: 0x" );
 		Serial.println( IrReceiver.decodedIRData.address, HEX );
-		Serial.print( "Command: " );
+		Serial.print( "Command: 0x" );
 		Serial.println( IrReceiver.decodedIRData.command, HEX );
-		Serial.print( "Raw Data: " );
+		Serial.print( "Raw Data: 0x" );
 		Serial.println( IrReceiver.decodedIRData.decodedRawData, HEX );
 		Serial.print( "Protocol: " );
 		Serial.println( Protocols[IrReceiver.decodedIRData.protocol] );
