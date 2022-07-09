@@ -1,7 +1,8 @@
-#include <WiFi.h>
 #include <ESPAsyncWebServer.h>
-#include <SPIFFS.h>
+#include <ESPmDNS.h>
 #include <FastLED.h>
+#include <SPIFFS.h>
+#include <WiFi.h>
 
 #define NUM_LEDS 200
 #define DATA_PIN 5
@@ -22,6 +23,7 @@ void setup()
 	Serial.print( "Connecting to " );
 	Serial.println( ssid );
 	WiFi.begin( ssid, password );
+	MDNS.begin( "colorselector" );
 	
 	if ( !SPIFFS.begin( true ) ) return;
 
