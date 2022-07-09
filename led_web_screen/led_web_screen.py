@@ -21,7 +21,7 @@ def GetPixels():
 		finalcolor = "{:02x}{:02x}{:02x}".format( color[0], color[1], color[2] )
 		finalcolor = int( finalcolor, 16 )
 		params += "led{0}={1}&".format( i, finalcolor )
-	requests.post( "http://192.168.1.208/state?" + params )
+	requests.post( "http://colorselector.local/state?" + params )
 	now = time.perf_counter()
 	print( "Applied colors in {:.3f} seconds.".format( now - then ) )
 

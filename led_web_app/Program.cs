@@ -31,7 +31,7 @@ while ( ( input = Console.ReadLine() ) != null && input != "exit" )
 			color = Convert.ToInt32( input, 16 );
 		}
 
-		await client.GetAsync( "http://192.168.1.208/state?color=" + color );
+		await client.GetAsync( "http://colorselector.local/state?color=" + color );
 		Console.WriteLine( "Successfully changed the color to " + input + "\n" );
 	}
 	catch ( Exception e )

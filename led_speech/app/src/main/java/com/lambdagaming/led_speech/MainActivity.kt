@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), RecognitionListener {
 		colors.forEach { entry ->
 			if ( entry.name.lowercase() == color?.lowercase()?.filter { !it.isWhitespace() } ) {
 				val queue = Volley.newRequestQueue( this )
-				val request = StringRequest( Request.Method.POST, "http://192.168.1.208/state?color=${entry.color}", {}, {} )
+				val request = StringRequest( Request.Method.POST, "http://colorselector.local/state?color=${entry.color}", {}, {} )
 				queue.add( request )
 			}
 		}
