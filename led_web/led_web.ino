@@ -1,6 +1,7 @@
 #include <ESPAsyncWebServer.h>
 #include <ESPmDNS.h>
 #include <FastLED.h>
+#include <LuaWrapper.h>
 #include <SPIFFS.h>
 #include <WiFi.h>
 
@@ -14,6 +15,24 @@ CRGB leds[NUM_LEDS];
 const char *ssid = "";
 const char *password = "";
 AsyncWebServer server( 80 );
+LuaWrapper lua;
+String LuaScript = "";
+
+static int SetSolidColor( lua_State *lua_state )
+{
+  int color = luaL_checkinteger( lua_state, 1 );
+  FastLED.showColor( color );
+  return 0;
+}
+
+void HandleBody( AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total )
+{
+  for ( size_t i = 0; i < len; i++ )
+  {
+    Serial.write( data[i] );
+  }
+  LuaScript = ( char* ) data;
+}
 
 void setup()
 {
@@ -43,11 +62,14 @@ void setup()
 	Serial.print( "IP address: " );
 	Serial.println( WiFi.localIP() );
 
+  lua.Lua_register( "SetSolidColor", ( const lua_CFunction ) &SetSolidColor );
+
 	server.on( "/", HTTP_GET, []( AsyncWebServerRequest *request ) {
 		request->send( SPIFFS, "/index.html", String(), false );
 	} );
 
 	server.on( "/state", HTTP_POST, []( AsyncWebServerRequest *request ) {
+    LuaScript = "";
 		if ( request->hasParam( "color" ) )
 		{
 			int color = request->getParam( "color" )->value().toInt();
@@ -77,6 +99,10 @@ void setup()
 		request->send( 200, "text/plain", "OK" );
 	} );
 
+  server.on( "/anim", HTTP_POST, []( AsyncWebServerRequest *request ) {
+    request->send( 200 );
+  }, NULL, HandleBody );
+
 	server.on( "/settings", HTTP_POST, []( AsyncWebServerRequest * request ) {
 		if ( request->hasParam( "brightness" ) )
 		{
@@ -97,4 +123,9 @@ void setup()
 	server.begin();
 }
 
-void loop() {}
+void loop() {
+  if ( LuaScript.length() > 0 )
+  {
+    lua.Lua_dostring( &LuaScript );
+  }
+}

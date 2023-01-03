@@ -8,6 +8,14 @@ function SendURL( url ) {
 	connect.send()
 }
 
+function SubmitLuaCode() {
+	var code = document.getElementById( "luaBox" )
+	var connect = new XMLHttpRequest()
+	connect.open( "POST", "/anim", true )
+	connect.setRequestHeader( "Content-Type", "text/plain" )
+	connect.send( code )
+}
+
 function SendColor() {
 	var colorstring = document.getElementById( "colorinput" ).value
 	var hexstring = document.getElementById( "hexinput" ).value
