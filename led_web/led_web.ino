@@ -43,10 +43,11 @@ static int PushColors( lua_State *lua_state )
   return 0;
 }
 
-static int CurTime( lua_State *lua_state )
+static int LuaDelay( lua_State *lua_state )
 {
-  lua_pushnumber( lua_state,  ( lua_Number ) millis() );
-  return 1;
+  int time = luaL_checkinteger( lua_state, 1 );
+  delay( time );
+  return 0;
 }
 
 void HandleBody( AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total )
@@ -89,7 +90,7 @@ void setup()
   lua.Lua_register( "SetColor", ( const lua_CFunction ) &SetColor );
   lua.Lua_register( "SetSolidColor", ( const lua_CFunction ) &SetSolidColor );
   lua.Lua_register( "PushColors", ( const lua_CFunction ) &PushColors );
-  lua.Lua_register( "CurTime", ( const lua_CFunction ) &CurTime );
+  lua.Lua_register( "delay", ( const lua_CFunction ) &LuaDelay );
 
 	server.on( "/", HTTP_GET, []( AsyncWebServerRequest *request ) {
 		request->send( SPIFFS, "/index.html", String(), false );
