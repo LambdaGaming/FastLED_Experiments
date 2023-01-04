@@ -13,7 +13,7 @@ function SubmitLuaCode() {
 	var connect = new XMLHttpRequest()
 	connect.open( "POST", "/anim", true )
 	connect.setRequestHeader( "Content-Type", "text/plain" )
-	connect.send( code )
+	connect.send( code.value )
 }
 
 function SendColor() {

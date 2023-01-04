@@ -16,7 +16,19 @@ const char *ssid = "";
 const char *password = "";
 AsyncWebServer server( 80 );
 LuaWrapper lua;
-String LuaScript = "";
+
+static int SetColor( lua_State *lua_state )
+{
+  int index = luaL_checkinteger( lua_state, 1 );
+  int color = luaL_checkinteger( lua_state, 2 );
+  if ( index > NUM_LEDS - 1 )
+  {
+    luaL_error( lua_state, "LED index is out of range." );
+    return 0;
+  }
+  leds[index] = color;
+  return 0;
+}
 
 static int SetSolidColor( lua_State *lua_state )
 {
@@ -25,13 +37,25 @@ static int SetSolidColor( lua_State *lua_state )
   return 0;
 }
 
+static int PushColors( lua_State *lua_state )
+{
+  FastLED.show();
+  return 0;
+}
+
+static int CurTime( lua_State *lua_state )
+{
+  lua_pushnumber( lua_state,  ( lua_Number ) millis() );
+  return 1;
+}
+
 void HandleBody( AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total )
 {
-  for ( size_t i = 0; i < len; i++ )
-  {
-    Serial.write( data[i] );
-  }
-  LuaScript = ( char* ) data;
+  String script = ( char* ) data;
+  int i = script.indexOf( ';' );
+  String sub = script.substring( 0, i ); // Filter out garbage data that breaks the script
+  Serial.println( sub );
+  lua.Lua_dostring( &sub );
 }
 
 void setup()
@@ -62,14 +86,16 @@ void setup()
 	Serial.print( "IP address: " );
 	Serial.println( WiFi.localIP() );
 
+  lua.Lua_register( "SetColor", ( const lua_CFunction ) &SetColor );
   lua.Lua_register( "SetSolidColor", ( const lua_CFunction ) &SetSolidColor );
+  lua.Lua_register( "PushColors", ( const lua_CFunction ) &PushColors );
+  lua.Lua_register( "CurTime", ( const lua_CFunction ) &CurTime );
 
 	server.on( "/", HTTP_GET, []( AsyncWebServerRequest *request ) {
 		request->send( SPIFFS, "/index.html", String(), false );
 	} );
 
 	server.on( "/state", HTTP_POST, []( AsyncWebServerRequest *request ) {
-    LuaScript = "";
 		if ( request->hasParam( "color" ) )
 		{
 			int color = request->getParam( "color" )->value().toInt();
@@ -123,9 +149,4 @@ void setup()
 	server.begin();
 }
 
-void loop() {
-  if ( LuaScript.length() > 0 )
-  {
-    lua.Lua_dostring( &LuaScript );
-  }
-}
+void loop() {}
