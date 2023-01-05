@@ -56,7 +56,6 @@ void HandleBody( AsyncWebServerRequest *request, uint8_t *data, size_t len, size
   String script = ( char* ) data;
   int i = script.indexOf( ';' );
   LuaScript = script.substring( 0, i ); // Filter out garbage data that breaks the script
-  Serial.println( LuaScript );
 }
 
 void setup()
